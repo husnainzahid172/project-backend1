@@ -1,3 +1,3 @@
 # Expense Tracker Backend
 Backend for Expense Tracker app with Node.js, Express, MongoDB.
-docker build -t husnainzahid172/expense-tracker-backend ..
+docker build -t husnainzahid172/expense-tracker-backend 
