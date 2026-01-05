@@ -20,7 +20,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image
-        run: docker build -t bilal664/expense-tracker-backend:latest .
+        run: docker build -t husnainbnu/expense-tracker-backend:latest .
 
       - name: Push Docker image
-        run: docker push bilal664/expense-tracker-backend:latest
+        run: docker push husnainbnu/expense-tracker-backend:latest
+
