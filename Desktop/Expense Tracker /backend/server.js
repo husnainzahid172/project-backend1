@@ -6,7 +6,13 @@ const cors = require("cors");
 const expenseRoutes = require("./routes/expenseRoutes");
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: ["https://project-frontend-beige-six.vercel.app/"], 
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 // Connect to MongoDB
