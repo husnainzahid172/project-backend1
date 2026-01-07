@@ -7,36 +7,41 @@ const expenseRoutes = require("./routes/expenseRoutes");
 
 const app = express();
 
-// CORS for Vercel frontend
+// Middleware to log every request
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
+// Enable JSON parsing
+app.use(express.json());
+
+// CORS settings: allow your frontend
 app.use(
   cors({
-    origin: ["https://project-frontend-beige-six.vercel.app"], 
+    origin: [
+      "https://project-frontend-beige-six.vercel.app", 
+      "http://localhost:9002",
+      "http://localhost:3000"
+    ], // add your Vercel frontend URL and local dev
     credentials: true,
   })
 );
 
-app.use(express.json());
-
 // Connect to MongoDB
-const MONGO_URI = process.env.MONGO_URI;
-if (!MONGO_URI) {
-  console.error("MongoDB URI is missing. Please set MONGO_URI in your .env file");
-  process.exit(1);
-}
-
 mongoose
-  .connect(MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.error("MongoDB error:", err));
+  .connect(process.env.MONGO_URI)
+  .then(() => console.log("✅ MongoDB connected"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
 // Routes
 app.use("/api/expenses", expenseRoutes);
 
-// Health check
+// Default health check
 app.get("/", (req, res) => {
   res.send({ status: "OK", message: "Backend is running" });
 });
 
-// Listen on all interfaces
+// Start server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, "0.0.0.0", () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on ${PORT}`));

@@ -1,14 +1,10 @@
-# Use Node.js LTS version
-FROM node:20
+FROM node:18
 
 WORKDIR /app
 
-# Copy package.json and package-lock.json separately
-COPY ./package.json ./package-lock.json ./
-
+COPY package*.json ./
 RUN npm install
 
-# Copy the rest of the files
 COPY . .
 
 EXPOSE 5000
